@@ -47,14 +47,13 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Register'),
         centerTitle: true,
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<FirebaseApp>(
         future: Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         ),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              // Return the Column widget containing the form fields and register button
               return Column(
                 children: [
                   TextField(
@@ -79,9 +78,7 @@ class _HomePageState extends State<HomePage> {
                       final password = _passwordController.text;
                       final userCredential = await FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
-                        email: email,
-                        password: password,
-                      );
+                              email: email, password: password);
                       print(userCredential);
                     },
                     child: const Text('Register'),
@@ -89,8 +86,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               );
             default:
-              // Display a loading indicator while Firebase initializes
-              return const Center(child: CircularProgressIndicator());
+              return const Text('Loading');
           }
         },
       ),
